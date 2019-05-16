@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Tets.Assets">
+    <Canvas x:Key="GTLogo" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Ebene_1" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path4" Fill="#FFD9D9D9" Data="M933.6 998.5c36.5 0 66.4-29.4 66.4-65.4V266c0-36-29.9-65.4-66.4-65.4H285.5l260.1 797.9H933.6z"/>
+        <Polygon xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Points="716.3,810 546.8,998.5 485.1,810 " Name="polygon6" FillRule="NonZero" Fill="#FF4352B8" Canvas.Left="-1"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path8" Fill="#FF617D8B" Data="M937 477v-39H749v-63h-61v63H568v39h238.8c-12.8 45-41 87.5-68.5 120.5c-48.8-57.7-49-76.5-49-76.5h-50.7  c0 0 2.1 28.1 70.5 108.3C686.9 652 670 665.5 670 665.5l15.6 48.7c0 0 23.5-20.2 53-51.5c29.5 32 67.6 70.5 116.9 116.4l32-32  c-52.8-47.9-91.5-85.9-119.9-116.4c38.1-45.1 76.8-101.8 85-153.8H937z"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path10" Fill="#FF4F8BF5" Data="M68.3 0.2C31.8 0.2 1.9 30.1 1.9 66.7v677c0 36.5 29.9 66.4 66.4 66.4h648.1L456.3 0.2H68.3z"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path12" Fill="#FFFFFFFF" Data="M423.9 377.5h-17.3h-56.8H282v58.8h81.7c-7.6 37.4-39.5 58.8-81.7 58.8c-49.8 0-90-40.2-90-90s40.2-90 90-90  c21.5 0 40.8 7.6 56.1 20.1l44.3-44.3c-27-23.5-61.6-38.1-100.4-38.1c-84.5 0-152.3 67.8-152.3 152.3S197.6 557.5 282 557.5  c76.2 0 145.4-55.4 145.4-152.3C427.4 396.2 426 386.5 423.9 377.5z"/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path14" Fill="#26FFFFFF" Data="M536.2 200.6h397.4c36.5 0 66.4 29.4 66.4 65.4v400.2L536.2 200.6z"/>
+    </Canvas>
+
+</ResourceDictionary>

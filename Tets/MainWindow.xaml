@@ -1,0 +1,459 @@
+﻿<Window x:Class="Tets.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tets"
+        mc:Ignorable="d"
+        Height="450" Width="800"
+        BorderBrush="#FF2D2D30" Background="#FF2D2D30" Title="Subtitle TranStation"
+        WindowStyle="None" IsManipulationEnabled="True" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <Style x:Key="{x:Type Menu}" TargetType="Menu">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Menu">
+                        <Border x:Name="MainMenu" Background="#FF2D2D30">
+                            <StackPanel ClipToBounds="True" Orientation="Horizontal" IsItemsHost="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="MenuItemControlTemplate1" TargetType="{x:Type MenuItem}">
+            <Border x:Name="templateRoot" 
+                    BorderBrush="#FF2D2D30" 
+                    CornerRadius="0" 
+                    BorderThickness="1"                     
+                    SnapsToDevicePixels="True">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    <Popup x:Name="PART_Popup"  AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom">
+                        <Border x:Name="SubMenuBorder" BorderBrush="#FF3B85B6" BorderThickness="1" Background="#FF005F9E" Padding="2">
+                            <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                <Grid RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                    <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
+                </Trigger>
+
+                <Trigger Property="IsHighlighted" Value="True">
+                    <Setter Property="Background" TargetName="templateRoot" Value="#FF005F9E"/>
+                    <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF3B85B6"/>
+                    <Setter Property="BorderThickness" TargetName="templateRoot" Value="1"></Setter>
+                </Trigger>
+
+                <Trigger Property="CanContentScroll" SourceName="SubMenuScrollViewer" Value="False">
+                    <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="Header" Value="Test" />
+                    <Setter Property="BorderBrush" Value="#FF005F9E"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <!-- Main Window -->
+    <DockPanel>
+        <!-- TitleBar -->
+        <DockPanel Name="TitleBar"
+                   DockPanel.Dock="Top"
+                   Height="32"
+                   Background="#FF2D2D30"
+                   MouseDown="Window_MouseDown">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <!-- Icon -->
+                <TextBlock Grid.Column="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="&#xE774;"
+                           Foreground="White"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="16"/>
+                <!-- Menu -->
+                <Menu Grid.Column="1"
+                      Background="{x:Null}"
+                      VerticalAlignment="Center"
+                      Foreground="White">
+                    <MenuItem Header="File" Template="{DynamicResource MenuItemControlTemplate1}">
+                        <MenuItem Header="_Open" Click="Menu_Open" />
+                        <MenuItem Header="_Export" />
+                        <MenuItem Header="_Exit" />
+                    </MenuItem>
+                    <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplate1}">
+                        <MenuItem Header="_View Help" />
+                        <Separator Background="#FF437597"/>
+                        <MenuItem Header="_About" />
+                    </MenuItem>
+                </Menu>
+                <!-- Title -->
+                <TextBlock Grid.Column="2" HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="Subtitle TranStation"
+                           Foreground="White"
+                           FontSize="16"/>
+                <!-- Controlbox -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                    <!-- Minimize Button -->
+                    <Button HorizontalAlignment="Right"
+                            Width="40" Height="32"
+                            BorderBrush="{x:Null}"
+                            Foreground="White"
+                            Content="&#xE949;"
+                            Focusable="False"
+                            FontFamily="Segoe MDL2 Assets"
+                            Click="Window_Minimize">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FF494949"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <!-- Close Button -->
+                    <Button HorizontalAlignment="Right"
+                            Width="40" Height="32"
+                            BorderBrush="{x:Null}"
+                            Foreground="White"
+                            Content="&#xE106;"
+                            Focusable="False"
+                            FontFamily="Segoe MDL2 Assets"
+                            Click="Window_Close">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFD30000"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <!-- Status Bar -->
+        <DockPanel Name="StatusBar"
+                   DockPanel.Dock="Bottom"
+                   Height="24"
+                   Background="#FF007ACC">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="lblOpenFile"
+                           Content="No Subtitles Open"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left" FontSize="11"/>
+                    <Label x:Name="lblDialogNum"
+                           Content="0 of 0"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Grid.Column="1" FontSize="11"/>
+                    <Label x:Name="lblCharacter"
+                           Content="Default"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Grid.Column="2" FontSize="11"/>
+                </Grid>
+                <Label x:Name="lblStartTime"
+                           Content="Start: 00:00:00,000"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Grid.Column="1" FontSize="11"/>
+                <Label x:Name="lblEndTime"
+                           Content="End: 00:00:00,000"
+                           Foreground="White"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Grid.Column="2" FontSize="11"/>
+            </Grid>
+        </DockPanel>
+
+        <!-- Window Content -->
+        <Grid Margin="20,10,20,10" FocusManager.FocusedElement="{Binding ElementName=txtTranslate}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="48" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <!-- Language Combos -->
+            <!-- Dialog and Translation TextBox -->
+            <TextBox x:Name="txtDialog"
+                     Grid.Column="0"
+                     Grid.Row="1"
+                     TextWrapping="Wrap"                     
+                     Background="#FF1E1E1E"
+                     BorderBrush="#FF3F3F46"
+                     Foreground="DarkGray"
+                     Padding="4"
+                     Focusable="False"
+                     IsEnabled="False" FontSize="18">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                                        </Trigger>
+                                        <Trigger Property="IsFocused" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="#FF3F3F46"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <StackPanel Grid.Row="1" Grid.Column="1" >
+                <Button x:Name="btGoogle" Height="36" Width="36" VerticalAlignment="Top"
+                    Margin="0,20,0,0" ToolTip="Suggest translation" Click="ChangeDialog"
+                    BorderThickness="0" Focusable="False">
+                    <Viewbox Height="24" Width="24">
+                        <ContentControl Content="{StaticResource GTLogo}" />
+                    </Viewbox>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF494949"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF007ACC"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btFst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                    Margin="0,20,0,0" ToolTip="First dialog" Content="&#xE898;" Foreground="DarkGray"
+                    BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF494949"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF007ACC"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btPrv" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                    Margin="0,20,0,0" ToolTip="Previous dialog" Content="&#xE892;" Foreground="DarkGray"
+                    BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF494949"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF007ACC"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btNxt" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                    Margin="0,20,0,0" ToolTip="Next Dialog" Content="&#xE893;" Foreground="DarkGray"
+                    BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF494949"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF007ACC"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="btLst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                    Margin="0,20,0,0" ToolTip="Last dialog" Content="&#xE896;" Foreground="DarkGray"
+                    BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF494949"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FF007ACC"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+            <TextBox x:Name="txtTranslate"
+                     Grid.Column="2"
+                     Grid.Row="1"
+                     TextWrapping="Wrap"                     
+                     Background="#FF1E1E1E"
+                     BorderBrush="#FF3F3F46"
+                     Foreground="DarkGray"                     
+                     Padding="4" FontSize="18">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                                        </Trigger>
+                                        <Trigger Property="IsFocused" Value="true">
+                                            <Setter Property="BorderBrush" TargetName="border" Value="#FF3F3F46"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBlock Text="Original Dialog:"
+                       VerticalAlignment="Center"
+                       Foreground="DarkGray"/>
+            <TextBlock Text="Translation:"
+                       VerticalAlignment="Center"
+                       Foreground="DarkGray"
+                       Grid.Column="2"/>
+        </Grid>
+    </DockPanel>
+</Window>
