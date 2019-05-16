@@ -105,6 +105,11 @@ namespace Tets
                         currentDialog = loadedSubs.Rows.Count - 1;
                         UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
                         break;
+                    case "btGoogle":
+                        string alertMsg = "This will generate a suggested translation for the current subtitle using the Google Translate service that it may not be accurate. Do you want to continue?";
+                        MessageBox.Show(alertMsg, "External translation", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                        break;
+
                 } 
             }
         }
