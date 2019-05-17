@@ -25,11 +25,11 @@ namespace Tets
         private int currentDialog;
         private string fileName;
         private DataTable loadedSubs;
+        public string suggestedTrans { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -106,8 +106,19 @@ namespace Tets
                         UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
                         break;
                     case "btGoogle":
-                        string alertMsg = "This will generate a suggested translation for the current subtitle using the Google Translate service that it may not be accurate. Do you want to continue?";
-                        MessageBox.Show(alertMsg, "External translation", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+                        string message = "This will generate a suggested translation for the current subtitle using the Google Translate service that it may not be accurate.";
+                        DialogWindow dialog = new DialogWindow();
+                        dialog.DialogTitle = "Suggested Translation";
+                        dialog.Message = message;
+                        dialog.Type = DialogWindow.GoogleType;
+                        dialog.Subtitle = txtDialog.Text;
+                        dialog.Owner = this;                        
+                        if (dialog.ShowDialog() == true)
+                        {
+                            string sugestion = dialog.SuggestedSub;
+                            txtTranslate.Text = sugestion;
+                            dialog.Close();
+                        }
                         break;
 
                 } 

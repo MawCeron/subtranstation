@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary x:Name="LogoDictionary" Source="Assets/gTransLogo.xaml" />
+                <ResourceDictionary x:Name="LogoDictionary" Source="Assets/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Application.Resources>    
+    </Application.Resources>
 </Application>

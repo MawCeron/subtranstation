@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Height="450" Width="800"
         BorderBrush="#FF2D2D30" Background="#FF2D2D30" Title="Subtitle TranStation"
-        WindowStyle="None" IsManipulationEnabled="True" ResizeMode="NoResize">
+        WindowStyle="None" IsManipulationEnabled="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style x:Key="{x:Type Menu}" TargetType="Menu">
