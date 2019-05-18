@@ -36,7 +36,12 @@ namespace Tets
             {
                 string fileName = Path.GetFileName(filePath);
                 string errorMsg = String.Format("Subtitle TranStation could not open \"{0}\" because it is not a supported file type.", fileName);
-                MessageBox.Show(errorMsg, "File Not Supported",MessageBoxButton.OK,MessageBoxImage.Error);
+                DialogWindow errorDialog = new DialogWindow();
+                errorDialog.DialogTitle = "Error opening the file";
+                errorDialog.Message = errorMsg;
+                errorDialog.Type = DialogWindow.ErrorType;
+                errorDialog.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                errorDialog.Show();
                 return null;
             }
         }

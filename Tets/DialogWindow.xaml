@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tets"
         mc:Ignorable="d"
-        Height="150" Width="420" BorderBrush="#FF007ACC" Title="Subtitle TranStation" IsManipulationEnabled="True" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF29353E">
-    <Grid Margin="5,0">
+        Height="160" Width="420" BorderBrush="#FF007ACC" Title="Subtitle TranStation" IsManipulationEnabled="True"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None" Background="#FF29353E">
+    <Grid Margin="5,0,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="35" />
@@ -15,7 +16,7 @@
             <ColumnDefinition Width="60" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <Viewbox Width="45" Height="45" Margin="0,-45,0,0">
+        <Viewbox x:Name="vbIcon" Width="45" Height="45" Margin="0,-45,0,0">
             <ContentControl x:Name="icon" Content="{StaticResource Error}" />
         </Viewbox>        
         <StackPanel Grid.Column="1">

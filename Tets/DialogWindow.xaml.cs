@@ -59,10 +59,11 @@ namespace Tets
             switch (type)
             {
                 case ErrorType:
-                    icon.Content = Application.Current.Resources["Error"];
+                    icon.Content = Application.Current.Resources["Error"];                    
                     break;
                 case InfoType:
                     icon.Content = Application.Current.Resources["Info"];
+                    vbIcon.Margin = new Thickness(0, 0, 0, 0);
                     break;
                 case GoogleType:
                     isGT = true;

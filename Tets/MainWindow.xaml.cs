@@ -65,7 +65,7 @@ namespace Tets
 
         private void ChangeDialog(object sender,RoutedEventArgs e)
         {
-            if (loadedSubs != null)
+            if (loadedSubs != null && loadedSubs.Rows.Count > 0)
             {
                 if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
                     loadedSubs.Rows[currentDialog]["Translation"] = txtTranslate.Text.Trim();
@@ -86,7 +86,14 @@ namespace Tets
                         else
                         {
                             string errorMsg = String.Format("This is the first subtitle in the file. There are no previous subtitles availables.", fileName);
-                            MessageBox.Show(errorMsg, "No more subtitles", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            DialogWindow errorDialog = new DialogWindow();
+                            errorDialog.DialogTitle = "No more subtitles";
+                            errorDialog.Message = errorMsg;
+                            errorDialog.Type = DialogWindow.InfoType;
+                            errorDialog.Owner = this;
+                            errorDialog.Width = 400;
+                            errorDialog.Height = 120;
+                            errorDialog.Show();
                         }
                         break;
                     case "btNxt":
@@ -98,7 +105,14 @@ namespace Tets
                         else
                         {
                             string errorMsg = String.Format("This is the last subtitle in the file. There are not more subtitles availables.", fileName);
-                            MessageBox.Show(errorMsg, "No more subtitles", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            DialogWindow errorDialog = new DialogWindow();
+                            errorDialog.DialogTitle = "No more subtitles";
+                            errorDialog.Message = errorMsg;
+                            errorDialog.Owner = this;
+                            errorDialog.Type = DialogWindow.InfoType;
+                            errorDialog.Width = 400;
+                            errorDialog.Height = 120;
+                            errorDialog.Show();
                         }
                         break;
                     case "btLst":
@@ -122,7 +136,7 @@ namespace Tets
                         break;
 
                 } 
-            }
+            } 
         }
 
         private void UpdateCurrentDialog(DataTable loadedSubs, int currentDialog, string fileName)

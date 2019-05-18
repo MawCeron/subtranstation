@@ -65,12 +65,20 @@ namespace Tets
                     loadedSubs.Rows.Add(dialog);
                 }
 
+                if (loadedSubs.Rows.Count == 0)
+                    throw new Exception();
+
                 return loadedSubs;
             }
             catch (Exception)
             {
                 string errorMsg = @"This is not a valid SubRip file. Please try again.";
-                MessageBox.Show(errorMsg, "File Not Supported", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogWindow errorDialog = new DialogWindow();
+                errorDialog.DialogTitle = "Incorrect subtitle format";
+                errorDialog.Message = errorMsg;
+                errorDialog.Type = DialogWindow.ErrorType;
+                errorDialog.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;               
+                errorDialog.Show();
                 return null;
             }
         }
