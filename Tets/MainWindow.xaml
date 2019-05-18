@@ -106,8 +106,9 @@
                       Foreground="White">
                     <MenuItem Header="File" Template="{DynamicResource MenuItemControlTemplate1}">
                         <MenuItem Header="_Open" Click="Menu_Open" />
-                        <MenuItem Header="_Export" />
-                        <MenuItem Header="_Exit" />
+                        <MenuItem Header="_Save" />
+                        <MenuItem Header="_Export Subtitles" />
+                        <MenuItem Header="_Exit" Click="Window_Close" />
                     </MenuItem>
                     <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplate1}">
                         <MenuItem Header="_View Help" />
