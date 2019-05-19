@@ -107,7 +107,7 @@
                     <MenuItem Header="File" Template="{DynamicResource MenuItemControlTemplate1}">
                         <MenuItem Header="_Open" Click="Menu_Open" />
                         <MenuItem Header="_Save" />
-                        <MenuItem Header="_Export Subtitles" />
+                        <MenuItem Header="_Export Subtitles" Click="Menu_Export" />
                         <MenuItem Header="_Exit" Click="Window_Close" />
                     </MenuItem>
                     <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplate1}">

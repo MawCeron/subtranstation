@@ -17,7 +17,7 @@ namespace Tets
                 DataTable loadedSubs = new DataTable();
                 loadedSubs.Columns.Add("Start");
                 loadedSubs.Columns.Add("End");
-                loadedSubs.Columns.Add("Dialog");
+                loadedSubs.Columns.Add("Dialogue");
                 loadedSubs.Columns.Add("Translation");
                 loadedSubs.Columns["Translation"].DefaultValue = String.Empty;
 
@@ -56,10 +56,10 @@ namespace Tets
                     string text = "";
                     for (int i = 2; i < elements.Length; i++)
                     {
-                        text += elements[i].Trim() + "\\n";
+                        text += elements[i].Trim() + " || ";
                     }
 
-                    text = text.Remove(text.Length - 2);
+                    text = text.Remove(text.Length - 4);
                     dialog[2] = text;
 
                     loadedSubs.Rows.Add(dialog);

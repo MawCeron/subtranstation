@@ -12,8 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Data;
+using System.IO;
 
 namespace Tets
 {
@@ -52,15 +52,53 @@ namespace Tets
             filedialog.Filter = "SubRip Subtitles (*.srt)|*.srt|All files (*.*)|*.*";
             if (filedialog.ShowDialog() == true)
             {
-                loadedSubs = Classes.CheckSubFile(filedialog.FileName);
+                loadedSubs = SharedClasses.CheckSubFile(filedialog.FileName);
                 if(loadedSubs != null)
                 {
                     fileName = filedialog.FileName;
                     currentDialog = 0;
                     UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
                 }
+            }               
+        }
+
+        private void Menu_Export(object sender, RoutedEventArgs e)
+        {
+            bool success = false;
+            string newFile = String.Empty;
+            SaveFileDialog exportDialog = new SaveFileDialog();
+            exportDialog.Filter = "SubRip Subtitles (*.srt) | *.srt";
+            exportDialog.AddExtension = true;
+            exportDialog.FileName = Path.GetFileNameWithoutExtension(lblOpenFile.Content.ToString());
+            if(exportDialog.ShowDialog() == true)
+            {
+                success = SubtitleExporting.ToSubRip(loadedSubs, exportDialog.OpenFile());
             }
-               
+
+            if (success)
+            {
+                string message = String.Format("The subtitles has been exported successfully.", fileName);
+                DialogWindow errorDialog = new DialogWindow();
+                errorDialog.DialogTitle = "Exporting Subtitles";
+                errorDialog.Message = message;
+                errorDialog.Type = DialogWindow.InfoType;
+                errorDialog.Owner = this;
+                errorDialog.Width = 400;
+                errorDialog.Height = 120;
+                errorDialog.Show();
+            } else
+            {
+                string errorMsg = String.Format("An error ocurred exporting the subtitles, please try again.", fileName);
+                DialogWindow errorDialog = new DialogWindow();
+                errorDialog.DialogTitle = "Exporting Subtitles";
+                errorDialog.Message = errorMsg;
+                errorDialog.Type = DialogWindow.ErrorType;
+                errorDialog.Owner = this;
+                errorDialog.Width = 400;
+                errorDialog.Height = 120;
+                errorDialog.Show();
+            }
+            
         }
 
         private void ChangeDialog(object sender,RoutedEventArgs e)
@@ -148,7 +186,7 @@ namespace Tets
             lblStartTime.Content = String.Format("Start: {0}", loadedSubs.Rows[currentDialog]["Start"].ToString());
             lblEndTime.Content = String.Format("End: {0}", loadedSubs.Rows[currentDialog]["End"].ToString());
 
-            txtDialog.Text = loadedSubs.Rows[currentDialog]["Dialog"].ToString();
+            txtDialog.Text = loadedSubs.Rows[currentDialog]["Dialogue"].ToString();
             txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();
         }
     }

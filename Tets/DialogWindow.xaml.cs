@@ -24,7 +24,6 @@ namespace Tets
         private string subtitle = String.Empty;
         private string title = String.Empty;
         private string message = String.Empty;
-        private int type = 0;
         private string suggestion = String.Empty;
         public const int ErrorType = 0;
         public const int InfoType = 1;
@@ -91,7 +90,7 @@ namespace Tets
             {
                 string from = ((ComboBoxItem)cbFrom.SelectedItem).Tag.ToString();
                 string to = ((ComboBoxItem)cbTo.SelectedItem).Tag.ToString();
-                suggestion = Classes.GetGoogleTranslation(subtitle, from, to);
+                suggestion = SharedClasses.GetGoogleTranslation(subtitle, from, to);
                 this.DialogResult = true;                
             } else
             {

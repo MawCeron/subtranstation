@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Tets
 {
-    class Classes
+    class SharedClasses
     {
         public static DataTable CheckSubFile(string filePath)
         {
