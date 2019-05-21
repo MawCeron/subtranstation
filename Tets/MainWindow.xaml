@@ -425,7 +425,7 @@
                      Background="#FF1E1E1E"
                      BorderBrush="#FF3F3F46"
                      Foreground="DarkGray"                     
-                     Padding="4" FontSize="18" TextChanged="txtTranslate_TextChanged">
+                     Padding="4" FontSize="18">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">

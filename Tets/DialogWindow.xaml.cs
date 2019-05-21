@@ -75,6 +75,7 @@ namespace Tets
                     gridGT.Visibility = Visibility.Visible;
                     break;
                 case WarningType:
+                    isWarning = true;
                     icon.Content = Application.Current.Resources["Warning"];
                     vbIcon.Margin = new Thickness(0, 0, 0, 0);
                     btCancel.Visibility = Visibility.Visible;
@@ -101,10 +102,15 @@ namespace Tets
                 string from = ((ComboBoxItem)cbFrom.SelectedItem).Tag.ToString();
                 string to = ((ComboBoxItem)cbTo.SelectedItem).Tag.ToString();
                 suggestion = SharedClasses.GetGoogleTranslation(subtitle, from, to);
+                this.DialogResult = true;
+                this.Close();
             }
 
-            if (isWarning || isGT)
+            if (isWarning)
+            {
                 this.DialogResult = true;
+                this.Close();
+            }                
 
             this.Close();
 

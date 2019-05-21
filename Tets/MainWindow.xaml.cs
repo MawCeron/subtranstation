@@ -46,10 +46,24 @@ namespace Tets
         }
         private void Window_Close(object sender, RoutedEventArgs e)
         {
-            if (!IsUnsaved())
+            if (fileOpened)
             {
-                Close(); 
+                if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
+                {
+                    if (String.IsNullOrEmpty(loadedSubs.Rows[currentDialog]["Translation"].ToString()))
+                        unsavedSubs = true;
+
+                    if (txtTranslate.Text.Trim() != loadedSubs.Rows[currentDialog]["Translation"].ToString())
+                        unsavedSubs = true;
+                }
+
+                if (!IsUnsaved())
+                {
+                    Close();
+                }
             }
+            else
+                Close();
         }
         private void Menu_Open(object sender, RoutedEventArgs e)
         {
@@ -244,7 +258,7 @@ namespace Tets
         {
             if (unsavedSubs)
             {
-                string errorMsg = "Some translation haven't been saved. Are you sure you want to continue?";
+                string errorMsg = "Translation haven't been saved, all unsaved changes will be lost. Are you sure you want to continue?";
                 DialogWindow unsavedDialog = new DialogWindow();
                 unsavedDialog.DialogTitle = "Exporting Subtitles";
                 unsavedDialog.Message = errorMsg;
@@ -259,14 +273,6 @@ namespace Tets
             }
             return false;
         }
-
-        private void txtTranslate_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (txtTranslate.Text.Trim() != loadedSubs.Rows[currentDialog]["Translation"].ToString().Trim())
-            {
-                unsavedSubs = true;
-                saveMenu.IsEnabled = true; 
-            }
-        }
+                
     }
 }
