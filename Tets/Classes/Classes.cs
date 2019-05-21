@@ -16,7 +16,7 @@ namespace Tets
     {
         public static DataTable CheckSubFile(string filePath)
         {
-            string[] supportedSubs = { ".srt", ".ass" };
+            string[] supportedSubs = { ".srt", ".ass",".tra" };
 
             string ext = Path.GetExtension(filePath);
             if (supportedSubs.Contains(ext))
@@ -24,6 +24,9 @@ namespace Tets
                 DataTable loadedSub = new DataTable();
                 switch (ext)
                 {
+                    case ".tra":
+                        loadedSub = OpenSavedProject(filePath);
+                        break;
                     case ".srt":
                         var subFile = File.ReadAllText(filePath);
                         loadedSub = SubtitleParsers.ParseSubRip(subFile);
@@ -46,8 +49,30 @@ namespace Tets
             }
         }
 
+        public static DataTable OpenSavedProject(string filePath)
+        {
+            DataSet ds = new DataSet();
+            ds.ReadXml(filePath);
+            DataTable loadedSubs = ds.Tables[0];
+            ds = null;
+            return loadedSubs;
+        }
 
-        
+        public static bool SaveProject(Stream filePath, DataTable translatedSubs, string openFile)
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add(translatedSubs);
+            ds.Tables[0].TableName = openFile;
+
+            try
+            {
+                ds.WriteXml(filePath);
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
 
         public static string GetGoogleTranslation(string dialog,string langFrom, string langTo)
         {

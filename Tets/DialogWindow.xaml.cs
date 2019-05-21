@@ -21,6 +21,7 @@ namespace Tets
     public partial class DialogWindow : Window
     {
         private bool isGT = false;
+        private bool isWarning = false;
         private string subtitle = String.Empty;
         private string title = String.Empty;
         private string message = String.Empty;
@@ -28,6 +29,7 @@ namespace Tets
         public const int ErrorType = 0;
         public const int InfoType = 1;
         public const int GoogleType = 2;
+        public const int WarningType = 3;
 
         public string SuggestedSub
         {
@@ -58,7 +60,8 @@ namespace Tets
             switch (type)
             {
                 case ErrorType:
-                    icon.Content = Application.Current.Resources["Error"];                    
+                    icon.Content = Application.Current.Resources["Error"];
+                    vbIcon.Margin = new Thickness(0, 0, 0, 0);
                     break;
                 case InfoType:
                     icon.Content = Application.Current.Resources["Info"];
@@ -71,6 +74,11 @@ namespace Tets
                     btCancel.Visibility = Visibility.Visible;
                     gridGT.Visibility = Visibility.Visible;
                     break;
+                case WarningType:
+                    icon.Content = Application.Current.Resources["Warning"];
+                    vbIcon.Margin = new Thickness(0, 0, 0, 0);
+                    btCancel.Visibility = Visibility.Visible;
+                    break;
             }
         }
 
@@ -80,22 +88,26 @@ namespace Tets
         }
 
         private void btCancel_Click(object sender, RoutedEventArgs e)
-        {   
+        {
+            this.DialogResult = false;
             this.Close();
         }
 
         private void btOK_Click(object sender, RoutedEventArgs e)
         {
+
             if (isGT)
             {
                 string from = ((ComboBoxItem)cbFrom.SelectedItem).Tag.ToString();
                 string to = ((ComboBoxItem)cbTo.SelectedItem).Tag.ToString();
                 suggestion = SharedClasses.GetGoogleTranslation(subtitle, from, to);
-                this.DialogResult = true;                
-            } else
-            {
-                this.Close();
             }
+
+            if (isWarning || isGT)
+                this.DialogResult = true;
+
+            this.Close();
+
         }
 
         private void FillLangCombos()

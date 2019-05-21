@@ -106,8 +106,8 @@
                       Foreground="White">
                     <MenuItem Header="File" Template="{DynamicResource MenuItemControlTemplate1}">
                         <MenuItem Header="_Open" Click="Menu_Open" />
-                        <MenuItem Header="_Save" />
-                        <MenuItem Header="_Export Subtitles" Click="Menu_Export" />
+                        <MenuItem Header="_Save" Click="Menu_Save" IsEnabled="False" x:Name="saveMenu"/>
+                        <MenuItem Header="_Export Subtitles" Click="Menu_Export" IsEnabled="False" x:Name="exportMenu"/>
                         <MenuItem Header="_Exit" Click="Window_Close" />
                     </MenuItem>
                     <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplate1}">
@@ -425,7 +425,7 @@
                      Background="#FF1E1E1E"
                      BorderBrush="#FF3F3F46"
                      Foreground="DarkGray"                     
-                     Padding="4" FontSize="18">
+                     Padding="4" FontSize="18" TextChanged="txtTranslate_TextChanged">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">

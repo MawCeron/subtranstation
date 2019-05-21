@@ -60,6 +60,31 @@
         <Canvas Name="g29"/>
     </Canvas>
 
+    <Canvas x:Key="Warning" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Capa1" Canvas.Left="0" Canvas.Top="0" Width="294.995" Height="294.995">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Canvas Name="h4">
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path_2" Fill="White" Data="M291.874 248.279L165.605 26.526c-4.007-7.037-10.776-11.26-18.107-11.26s-14.101 4.202-18.107 11.239L3.121 248.238   c-3.979 6.989-4.164 15.013-0.493 21.326c3.67 6.313 10.663 10.165 18.705 10.165h252.329c8.042 0 15.035-3.852 18.705-10.165   C296.038 263.251 295.854 255.268 291.874 248.279z M146.665 86.229c9.665 0 17.5 7.835 17.5 17.5v63c0 9.665-7.835 17.5-17.5 17.5   c-9.665 0-17.5-7.835-17.5-17.5v-63C129.165 94.064 137 86.229 146.665 86.229z M147.498 204.005c9.665 0 17.5 7.835 17.5 17.5   c0 9.665-7.835 17.5-17.5 17.5c-9.665 0-17.5-7.835-17.5-17.5C129.998 211.84 137.833 204.005 147.498 204.005z"/>
+        </Canvas>
+        <Canvas Name="h6"/>
+        <Canvas Name="h8"/>
+        <Canvas Name="h10"/>
+        <Canvas Name="h12"/>
+        <Canvas Name="h14"/>
+        <Canvas Name="h16"/>
+        <Canvas Name="h18"/>
+        <Canvas Name="h20"/>
+        <Canvas Name="h22"/>
+        <Canvas Name="h24"/>
+        <Canvas Name="h26"/>
+        <Canvas Name="h28"/>
+        <Canvas Name="h30"/>
+        <Canvas Name="h32"/>
+        <Canvas Name="h34"/>
+    </Canvas>
+
     <Canvas x:Key="GTLogo" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Glogo" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
         <Canvas.RenderTransform>
             <TranslateTransform X="0" Y="0"/>

@@ -25,6 +25,8 @@ namespace Tets
         private int currentDialog;
         private string fileName;
         private DataTable loadedSubs;
+        private bool unsavedSubs = false;
+        private bool fileOpened = false;
         public string suggestedTrans { get; set; }
 
         public MainWindow()
@@ -44,12 +46,15 @@ namespace Tets
         }
         private void Window_Close(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (!IsUnsaved())
+            {
+                Close(); 
+            }
         }
         private void Menu_Open(object sender, RoutedEventArgs e)
         {
             OpenFileDialog filedialog = new OpenFileDialog();
-            filedialog.Filter = "SubRip Subtitles (*.srt)|*.srt|All files (*.*)|*.*";
+            filedialog.Filter = "All files (*.*)|*.*|SubRip Subtitles (*.srt)|*.srt|Subtitle TranStation Project (*.tra)|*.tra";
             if (filedialog.ShowDialog() == true)
             {
                 loadedSubs = SharedClasses.CheckSubFile(filedialog.FileName);
@@ -58,8 +63,49 @@ namespace Tets
                     fileName = filedialog.FileName;
                     currentDialog = 0;
                     UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
+                    fileOpened = true;
+                    exportMenu.IsEnabled = true;
                 }
             }               
+        }
+
+        private void Menu_Save(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
+                loadedSubs.Rows[currentDialog]["Translation"] = txtTranslate.Text.Trim();
+
+            string openFile = lblOpenFile.Content.ToString();
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Subtitle TranStation Project (*.tra)|*.tra";
+            saveDialog.AddExtension = true;
+            saveDialog.FileName = Path.GetFileNameWithoutExtension(lblOpenFile.Content.ToString());
+
+            if(saveDialog.ShowDialog() == true)
+            {
+                if (SharedClasses.SaveProject(saveDialog.OpenFile(), loadedSubs, openFile))
+                {
+                    string message = String.Format("The translation project has been saved successfully.", fileName);
+                    DialogWindow errorDialog = new DialogWindow();
+                    errorDialog.DialogTitle = "Exporting Subtitles";
+                    errorDialog.Message = message;
+                    errorDialog.Type = DialogWindow.InfoType;
+                    errorDialog.Owner = this;
+                    errorDialog.Width = 400;
+                    errorDialog.Height = 120;
+                    errorDialog.Show();
+                } else
+                {
+                    string errorMsg = String.Format("An error ocurred while saving the translation project, please try again.", fileName);
+                    DialogWindow errorDialog = new DialogWindow();
+                    errorDialog.DialogTitle = "Exporting Subtitles";
+                    errorDialog.Message = errorMsg;
+                    errorDialog.Type = DialogWindow.ErrorType;
+                    errorDialog.Owner = this;
+                    errorDialog.Width = 400;
+                    errorDialog.Height = 120;
+                    errorDialog.Show();
+                }
+            }
         }
 
         private void Menu_Export(object sender, RoutedEventArgs e)
@@ -106,7 +152,11 @@ namespace Tets
             if (loadedSubs != null && loadedSubs.Rows.Count > 0)
             {
                 if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
+                {
                     loadedSubs.Rows[currentDialog]["Translation"] = txtTranslate.Text.Trim();
+                    unsavedSubs = true;
+                }
+                    
 
                 Button btn = (Button)sender;
                 switch (btn.Name)
@@ -187,7 +237,36 @@ namespace Tets
             lblEndTime.Content = String.Format("End: {0}", loadedSubs.Rows[currentDialog]["End"].ToString());
 
             txtDialog.Text = loadedSubs.Rows[currentDialog]["Dialogue"].ToString();
-            txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();
+            txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();            
+        }
+
+        private bool IsUnsaved()
+        {
+            if (unsavedSubs)
+            {
+                string errorMsg = "Some translation haven't been saved. Are you sure you want to continue?";
+                DialogWindow unsavedDialog = new DialogWindow();
+                unsavedDialog.DialogTitle = "Exporting Subtitles";
+                unsavedDialog.Message = errorMsg;
+                unsavedDialog.Type = DialogWindow.WarningType;
+                unsavedDialog.Owner = this;
+                unsavedDialog.Width = 400;
+                unsavedDialog.Height = 120;
+                if(unsavedDialog.ShowDialog() == false)
+                {
+                    return true;
+                } 
+            }
+            return false;
+        }
+
+        private void txtTranslate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtTranslate.Text.Trim() != loadedSubs.Rows[currentDialog]["Translation"].ToString().Trim())
+            {
+                unsavedSubs = true;
+                saveMenu.IsEnabled = true; 
+            }
         }
     }
 }
