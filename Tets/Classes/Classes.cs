@@ -14,22 +14,27 @@ namespace Tets
 {
     class SharedClasses
     {
-        public static DataTable CheckSubFile(string filePath)
+        public static DataSet CheckSubFile(string filePath)
         {
-            string[] supportedSubs = { ".srt", ".ass",".tra" };
+            string[] supportedSubs = { ".srt", ".ass", ".ssa", ".tra" };
 
             string ext = Path.GetExtension(filePath);
             if (supportedSubs.Contains(ext))
             {
-                DataTable loadedSub = new DataTable();
+                DataSet loadedSub = new DataSet();
                 switch (ext)
                 {
                     case ".tra":
                         loadedSub = OpenSavedProject(filePath);
                         break;
                     case ".srt":
-                        var subFile = File.ReadAllText(filePath);
-                        loadedSub = SubtitleParsers.ParseSubRip(subFile);
+                        var srtFile = File.ReadAllText(filePath);
+                        loadedSub = SubtitleParsers.ParseSubRip(srtFile);
+                        break;
+                    case ".ass":
+                    case ".ssa":
+                        var ssaFile = File.ReadAllText(filePath);
+                        loadedSub = SubtitleParsers.ParseSubStationAlpha(ssaFile);
                         break;
                 }
 
@@ -49,24 +54,18 @@ namespace Tets
             }
         }
 
-        public static DataTable OpenSavedProject(string filePath)
+        public static DataSet OpenSavedProject(string filePath)
         {
             DataSet ds = new DataSet();
-            ds.ReadXml(filePath);
-            DataTable loadedSubs = ds.Tables[0];
-            ds = null;
-            return loadedSubs;
+            ds.ReadXml(filePath);            
+            return ds;
         }
 
-        public static bool SaveProject(Stream filePath, DataTable translatedSubs, string openFile)
+        public static bool SaveProject(Stream filePath, DataSet subScript)
         {
-            DataSet ds = new DataSet();
-            ds.Tables.Add(translatedSubs);
-            ds.Tables[0].TableName = openFile;
-
             try
             {
-                ds.WriteXml(filePath);
+                subScript.WriteXml(filePath);
                 return true;
             } catch (Exception)
             {

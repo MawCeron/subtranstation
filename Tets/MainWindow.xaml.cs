@@ -25,6 +25,7 @@ namespace Tets
         private int currentDialog;
         private string fileName;
         private DataTable loadedSubs;
+        private DataSet subScript;
         private bool unsavedSubs = false;
         private bool fileOpened = false;
         public string suggestedTrans { get; set; }
@@ -48,7 +49,7 @@ namespace Tets
         {
             if (fileOpened)
             {
-                if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
+                if (!string.IsNullOrEmpty(txtTranslate.Text) || !string.IsNullOrWhiteSpace(txtTranslate.Text))
                 {
                     if (String.IsNullOrEmpty(loadedSubs.Rows[currentDialog]["Translation"].ToString()))
                         unsavedSubs = true;
@@ -71,9 +72,11 @@ namespace Tets
             filedialog.Filter = "All files (*.*)|*.*|SubRip Subtitles (*.srt)|*.srt|Subtitle TranStation Project (*.tra)|*.tra";
             if (filedialog.ShowDialog() == true)
             {
-                loadedSubs = SharedClasses.CheckSubFile(filedialog.FileName);
-                if(loadedSubs != null)
+                subScript = SharedClasses.CheckSubFile(filedialog.FileName);
+                
+                if(subScript != null)
                 {
+                    loadedSubs = subScript.Tables["Dialogue"];
                     fileName = filedialog.FileName;
                     currentDialog = 0;
                     UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
@@ -96,7 +99,7 @@ namespace Tets
 
             if(saveDialog.ShowDialog() == true)
             {
-                if (SharedClasses.SaveProject(saveDialog.OpenFile(), loadedSubs, openFile))
+                if (SharedClasses.SaveProject(saveDialog.OpenFile(), subScript))
                 {
                     string message = String.Format("The translation project has been saved successfully.", fileName);
                     DialogWindow errorDialog = new DialogWindow();
@@ -123,42 +126,41 @@ namespace Tets
         }
 
         private void Menu_Export(object sender, RoutedEventArgs e)
-        {
-            bool success = false;
+        {            
             string newFile = String.Empty;
             SaveFileDialog exportDialog = new SaveFileDialog();
-            exportDialog.Filter = "SubRip Subtitles (*.srt) | *.srt";
+            exportDialog.Filter = "SubRip Subtitles (*.srt) | *.srt|SubStation Alpha Subtitles (*.ass)|*.ass";
             exportDialog.AddExtension = true;
             exportDialog.FileName = Path.GetFileNameWithoutExtension(lblOpenFile.Content.ToString());
             if(exportDialog.ShowDialog() == true)
             {
-                success = SubtitleExporting.ToSubRip(loadedSubs, exportDialog.OpenFile());
-            }
+                try
+                {
+                    SubtitleExporting.ToSubRip(loadedSubs, exportDialog.OpenFile());
 
-            if (success)
-            {
-                string message = String.Format("The subtitles has been exported successfully.", fileName);
-                DialogWindow errorDialog = new DialogWindow();
-                errorDialog.DialogTitle = "Exporting Subtitles";
-                errorDialog.Message = message;
-                errorDialog.Type = DialogWindow.InfoType;
-                errorDialog.Owner = this;
-                errorDialog.Width = 400;
-                errorDialog.Height = 120;
-                errorDialog.Show();
-            } else
-            {
-                string errorMsg = String.Format("An error ocurred exporting the subtitles, please try again.", fileName);
-                DialogWindow errorDialog = new DialogWindow();
-                errorDialog.DialogTitle = "Exporting Subtitles";
-                errorDialog.Message = errorMsg;
-                errorDialog.Type = DialogWindow.ErrorType;
-                errorDialog.Owner = this;
-                errorDialog.Width = 400;
-                errorDialog.Height = 120;
-                errorDialog.Show();
+                    string message = String.Format("The subtitles has been exported successfully.", fileName);
+                    DialogWindow errorDialog = new DialogWindow();
+                    errorDialog.DialogTitle = "Exporting Subtitles";
+                    errorDialog.Message = message;
+                    errorDialog.Type = DialogWindow.InfoType;
+                    errorDialog.Owner = this;
+                    errorDialog.Width = 400;
+                    errorDialog.Height = 120;
+                    errorDialog.Show();
+                }
+                catch (Exception)
+                {
+                    string errorMsg = String.Format("An error ocurred exporting the subtitles, please try again.", fileName);
+                    DialogWindow errorDialog = new DialogWindow();
+                    errorDialog.DialogTitle = "Exporting Subtitles";
+                    errorDialog.Message = errorMsg;
+                    errorDialog.Type = DialogWindow.ErrorType;
+                    errorDialog.Owner = this;
+                    errorDialog.Width = 400;
+                    errorDialog.Height = 120;
+                    errorDialog.Show();
+                }
             }
-            
         }
 
         private void ChangeDialog(object sender,RoutedEventArgs e)
@@ -245,12 +247,17 @@ namespace Tets
         {
             lblOpenFile.Content = System.IO.Path.GetFileName(fileName);
             lblDialogNum.Content = String.Format("{0} of {1}",(currentDialog + 1),loadedSubs.Rows.Count);
-            if (loadedSubs.Columns.Contains("Character"))
-                lblCharacter.Content = loadedSubs.Rows[currentDialog]["Character"];
+            if (loadedSubs.Columns.Contains("Name"))
+            {
+                if (!string.IsNullOrEmpty(loadedSubs.Rows[currentDialog]["Name"].ToString()))
+                {
+                    lblCharacter.Content = loadedSubs.Rows[currentDialog]["Name"];
+                } 
+            }
             lblStartTime.Content = String.Format("Start: {0}", loadedSubs.Rows[currentDialog]["Start"].ToString());
             lblEndTime.Content = String.Format("End: {0}", loadedSubs.Rows[currentDialog]["End"].ToString());
 
-            txtDialog.Text = loadedSubs.Rows[currentDialog]["Dialogue"].ToString();
+            txtDialog.Text = loadedSubs.Rows[currentDialog]["Text"].ToString();
             txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();            
         }
 
