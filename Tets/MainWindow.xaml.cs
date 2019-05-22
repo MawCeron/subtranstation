@@ -280,6 +280,36 @@ namespace Tets
             }
             return false;
         }
-                
+
+        private void txtTranslate_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Return)
+            {
+                if (!string.IsNullOrEmpty(txtTranslate.Text) || !string.IsNullOrWhiteSpace(txtTranslate.Text))
+                {
+                    loadedSubs.Rows[currentDialog]["Translation"] = txtTranslate.Text.Trim();
+                    unsavedSubs = true;
+                }
+
+                if (currentDialog != (loadedSubs.Rows.Count - 1))
+                {
+                    currentDialog++;
+                    UpdateCurrentDialog(loadedSubs, currentDialog, fileName);
+                }
+                else
+                {
+                    string errorMsg = String.Format("This is the last subtitle in the file. There are not more subtitles availables.", fileName);
+                    DialogWindow errorDialog = new DialogWindow();
+                    errorDialog.DialogTitle = "No more subtitles";
+                    errorDialog.Message = errorMsg;
+                    errorDialog.Owner = this;
+                    errorDialog.Type = DialogWindow.InfoType;
+                    errorDialog.Width = 400;
+                    errorDialog.Height = 120;
+                    errorDialog.Show();
+                }
+            }
+
+        }
     }
 }

@@ -425,7 +425,8 @@
                      Background="#FF1E1E1E"
                      BorderBrush="#FF3F3F46"
                      Foreground="DarkGray"                     
-                     Padding="4" FontSize="18">
+                     Padding="4" FontSize="18"
+                     KeyDown="txtTranslate_KeyDown">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="Template">
