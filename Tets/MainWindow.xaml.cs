@@ -163,11 +163,11 @@ namespace Tets
             }
         }
 
-        private void ChangeDialog(object sender,RoutedEventArgs e)
+        private void ChangeDialogue(object sender,RoutedEventArgs e)
         {
             if (loadedSubs != null && loadedSubs.Rows.Count > 0)
             {
-                if (!string.IsNullOrEmpty(txtTranslate.Text) || string.IsNullOrWhiteSpace(txtTranslate.Text))
+                if (!string.IsNullOrEmpty(txtTranslate.Text) || !string.IsNullOrWhiteSpace(txtTranslate.Text))
                 {
                     loadedSubs.Rows[currentDialog]["Translation"] = txtTranslate.Text.Trim();
                     unsavedSubs = true;

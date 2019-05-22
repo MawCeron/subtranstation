@@ -284,7 +284,7 @@
             </TextBox>
             <StackPanel Grid.Row="1" Grid.Column="1" >
                 <Button x:Name="btGoogle" Height="36" Width="36" VerticalAlignment="Top"
-                    Margin="0,20,0,0" ToolTip="Suggest translation" Click="ChangeDialog"
+                    Margin="0,20,0,0" ToolTip="Suggest translation" Click="ChangeDialogue"
                     BorderThickness="0" Focusable="False">
                     <Viewbox Height="24" Width="24">
                         <ContentControl Content="{StaticResource GTLogo}" />
@@ -312,7 +312,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btFst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                <Button x:Name="btFst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialogue"
                     Margin="0,20,0,0" ToolTip="First dialog" Content="&#xE898;" Foreground="DarkGray"
                     BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
                     <Button.Style>
@@ -338,7 +338,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btPrv" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                <Button x:Name="btPrv" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialogue"
                     Margin="0,20,0,0" ToolTip="Previous dialog" Content="&#xE892;" Foreground="DarkGray"
                     BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
                     <Button.Style>
@@ -364,7 +364,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btNxt" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                <Button x:Name="btNxt" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialogue"
                     Margin="0,20,0,0" ToolTip="Next Dialog" Content="&#xE893;" Foreground="DarkGray"
                     BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
                     <Button.Style>
@@ -390,7 +390,7 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="btLst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialog"
+                <Button x:Name="btLst" Height="36" Width="36" VerticalAlignment="Top" Click="ChangeDialogue"
                     Margin="0,20,0,0" ToolTip="Last dialog" Content="&#xE896;" Foreground="DarkGray"
                     BorderThickness="0" Focusable="False" FontFamily="Segoe MDL2 Assets">
                     <Button.Style>
