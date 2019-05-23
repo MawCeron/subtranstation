@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tets.Properties
+namespace STS.Properties
 {
 
 

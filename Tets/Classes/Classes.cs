@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Tets
+namespace STS
 {
     class SharedClasses
     {

@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Data;
 using System.IO;
 
-namespace Tets
+namespace STS
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

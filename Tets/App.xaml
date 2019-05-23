@@ -1,7 +1,7 @@
-﻿<Application x:Class="Tets.App"
+﻿<Application x:Class="STS.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Tets"
+             xmlns:local="clr-namespace:STS"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
