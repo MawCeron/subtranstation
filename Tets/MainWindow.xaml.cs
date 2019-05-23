@@ -130,13 +130,15 @@ namespace Tets
             string newFile = String.Empty;
             SaveFileDialog exportDialog = new SaveFileDialog();
             exportDialog.Filter = "SubRip Subtitles (*.srt) | *.srt|SubStation Alpha Subtitles (*.ass)|*.ass";
-            exportDialog.AddExtension = true;
+            exportDialog.AddExtension = true;            
             exportDialog.FileName = Path.GetFileNameWithoutExtension(lblOpenFile.Content.ToString());
             if(exportDialog.ShowDialog() == true)
             {
                 try
                 {
-                    SubtitleExporting.ToSubRip(loadedSubs, exportDialog.OpenFile());
+                    SharedClasses.ExportTranslation(exportDialog.FileName,
+                                                    exportDialog.OpenFile(),
+                                                    subScript);
 
                     string message = String.Format("The subtitles has been exported successfully.", fileName);
                     DialogWindow errorDialog = new DialogWindow();

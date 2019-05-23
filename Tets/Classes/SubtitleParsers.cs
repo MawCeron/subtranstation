@@ -239,19 +239,19 @@ namespace Tets
                 switch (i)
                 {
                     case 0:
-                        isTime = TimeSpan.TryParse(times[i], out initial);
+                        isTime = TimeSpan.TryParse(times[i].Replace(',', '.'), out initial);
                         if (!isTime)
                             return false;
                         break;
                     case 1:
-                        isTime = TimeSpan.TryParse(times[i], out final);
+                        isTime = TimeSpan.TryParse(times[i].Replace(',', '.'), out final);
                         if (!isTime)
                             return false;
                         break;
                 }
             }
 
-            if (final.TotalMilliseconds < initial.TotalMilliseconds)
+            if (final.TotalMilliseconds > initial.TotalMilliseconds)
                 return false;
 
             return true;

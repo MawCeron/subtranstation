@@ -120,5 +120,33 @@ namespace Tets
 
             return result;
         }
+
+        internal static void ExportTranslation(string filePath, Stream openFile, DataSet subScript)
+        {
+            string[] validExtensions = { ".srt", ".ass" };
+            try
+            {
+                string ext = Path.GetExtension(filePath);
+                if (validExtensions.Contains(ext))
+                {                    
+                    switch (ext)
+                    {
+                        
+                        case ".srt":
+                            SubtitleExporting.ToSubRip(subScript, openFile);
+                            break;
+                        case ".ass":
+                            SubtitleExporting.ToSubStationAlpha(subScript, openFile);
+                            break;
+                    }                    
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            
+        }
     }
 }

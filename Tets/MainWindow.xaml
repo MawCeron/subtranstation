@@ -107,7 +107,7 @@
                     <MenuItem Header="File" Template="{DynamicResource MenuItemControlTemplate1}">
                         <MenuItem Header="_Open" Click="Menu_Open" />
                         <MenuItem Header="_Save" Click="Menu_Save" IsEnabled="False" x:Name="saveMenu"/>
-                        <MenuItem Header="_Export Subtitles" Click="Menu_Export" IsEnabled="False" x:Name="exportMenu"/>
+                        <MenuItem Header="_Export Translation" Click="Menu_Export" IsEnabled="False" x:Name="exportMenu"/>
                         <MenuItem Header="_Exit" Click="Window_Close" />
                     </MenuItem>
                     <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplate1}">
@@ -240,7 +240,7 @@
         <!-- Window Content -->
         <Grid Margin="20,10,20,10" FocusManager.FocusedElement="{Binding ElementName=txtTranslate}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />                
                 <ColumnDefinition Width="48" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>

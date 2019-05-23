@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,41 +12,140 @@ namespace Tets
 {
     class SubtitleExporting
     {
-        public static void ToSubRip(DataTable translatedSubs, Stream exportedSubs)
+        // Export to SubRip (SRT)
+        public static void ToSubRip(DataSet subScript, Stream exportedSubs)
         {
+            DataTable translatedSubs = subScript.Tables["Dialogue"];
             if (translatedSubs.Rows.Count > 0)
             {
-                StreamWriter newFile = new StreamWriter(exportedSubs);
+                StreamWriter srtFile = new StreamWriter(exportedSubs);
                 for (int i = 0; i < translatedSubs.Rows.Count; ++i)
                 {
-                    newFile.WriteLine(i + 1);
-                    string timeCodes = String.Format(@"{0} --> {1}", translatedSubs.Rows[i]["Start"].ToString(), translatedSubs.Rows[i]["End"].ToString());
-                    newFile.WriteLine(timeCodes);
-                    string translation = translatedSubs.Rows[i]["Translation"].ToString();
-                    if (!String.IsNullOrEmpty(translation))
+                    srtFile.WriteLine(i + 1);
+
+                    // Correct time format
+                    string start = translatedSubs.Rows[i]["Start"].ToString().Replace('.',',');
+                    string end = translatedSubs.Rows[i]["End"].ToString().Replace('.', ',');
+                    if (start.IndexOf(':') == 1)
+                        start = "0" + start;
+                    if (end.IndexOf(':') == 1)
+                        end = "0" + end;
+                    string miliseconds;
+                    if(start.Length - start.IndexOf(',') - 1 == 2)
                     {
-                        string[] delimeters = { "||", "\\n" };
-                        string[] dialogues = translation.Split(delimeters, StringSplitOptions.None);
+                        miliseconds = start.Substring(start.IndexOf(',') + 1) + "0";
+                        start = start.Substring(0, start.Length - 2) + miliseconds;
+                    }
+                    if (end.Length - end.IndexOf(',') - 1 == 2)
+                    {
+                        miliseconds = end.Substring(end.IndexOf(',') + 1) + "0";
+                        end = end.Substring(0, end.Length - 2) + miliseconds;
+                    }
+
+                    string timeCodes = String.Format(@"{0} --> {1}", start, end);
+                    srtFile.WriteLine(timeCodes);
+
+                    string translation = translatedSubs.Rows[i]["Translation"].ToString();
+                    if (!String.IsNullOrEmpty(translation) || !String.IsNullOrWhiteSpace(translation))
+                    {
+                        translation = SubtitleFormating.SubRipFormat(translation);
+                        string[] delimeters = { "||", "\\N", "\\n" };
+                        string[] dialogues = translation.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string dialogue in dialogues)
-                            newFile.WriteLine(dialogue.Trim());
+                            if(!String.IsNullOrWhiteSpace(dialogue))
+                                srtFile.WriteLine(dialogue.Trim());
                     }
                     else
-                    {
-                        translation = translatedSubs.Rows[i]["Dialogue"].ToString();
-                        string[] delimeters = { "||", "\\n" };
-                        string[] dialogues = translation.Split(delimeters, StringSplitOptions.None);
+                    {                        
+                        translation = SubtitleFormating.SubRipFormat(translatedSubs.Rows[i]["Text"].ToString());
+                        string[] delimeters = { "||", "\\N", "\\n" };
+                        string[] dialogues = translation.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string dialogue in dialogues)
-                            newFile.WriteLine(dialogue.Trim());
+                            if (!String.IsNullOrWhiteSpace(dialogue))
+                                srtFile.WriteLine(dialogue.Trim());
                     }
-                    newFile.WriteLine();
+                    srtFile.WriteLine();
                 }
-                newFile.Dispose();
-                newFile.Close();
+                srtFile.Dispose();
+                srtFile.Close();
             } else
             {
                 throw new Exception();
             }
         }
 
+        // Export to SubStation Alpha (ASS)
+        public static void ToSubStationAlpha(DataSet subScript, Stream exportedSubs)
+        {
+            try
+            {
+                StreamWriter assFile = new StreamWriter(exportedSubs);
+                if (subScript.Tables.Contains("Info") && subScript.Tables.Contains("Style"))
+                {
+                    // Original file was ASS or SSA
+                    DataTable info = subScript.Tables["Info"];
+                    DataTable style = subScript.Tables["Style"];
+                    DataTable dialogue = subScript.Tables["Dialogue"];
+                    
+                    if (info.Rows.Count != 1)
+                        throw new Exception();
+
+                    assFile.WriteLine("[Script Info]");
+                    assFile.WriteLine("; Script generated by Subtitle TranStation " + Assembly.GetEntryAssembly().GetName().Version);
+                    assFile.WriteLine("; https://github.com/MawCeron/subtranstation/");
+                    foreach (DataColumn column in info.Columns)
+                        assFile.WriteLine(String.Format("{0}: {1}",column.ColumnName, info.Rows[0][column]));
+
+                    assFile.Dispose();
+                    assFile.Close();
+                }
+                else
+                {
+                    // Exporting from another format
+                    DataTable dialogue = subScript.Tables["Dialogue"];
+
+                    // Info
+                    assFile.WriteLine("[Script Info]");
+                    assFile.WriteLine("; Script generated by Subtitle TranStation " + Assembly.GetEntryAssembly().GetName().Version);
+                    assFile.WriteLine("; https://github.com/MawCeron/subtranstation/");
+                    string name = Path.GetFileNameWithoutExtension(((FileStream)assFile.BaseStream).Name);
+                    assFile.WriteLine("Title: " + name);
+                    assFile.WriteLine("ScriptType: v4.00+");
+                    assFile.WriteLine();
+                    //Style
+                    assFile.WriteLine("[V4+ Styles]");
+                    assFile.WriteLine("Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding");
+                    assFile.WriteLine("Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,1");
+                    assFile.WriteLine();
+                    //Events
+                    assFile.WriteLine("[Events]");
+                    assFile.WriteLine("Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text");
+                    foreach (DataRow row in dialogue.Rows)
+                    {
+                        string translation = row["Translation"].ToString().Replace(" || ","\\N");
+                        string start = row["Start"].ToString().Substring(0, row["Start"].ToString().IndexOf(',') + 3).Replace(',','.');
+                        string end = row["End"].ToString().Substring(0, row["End"].ToString().IndexOf(',') + 3).Replace(',', '.');
+                        if (!String.IsNullOrEmpty(translation) || !String.IsNullOrWhiteSpace(translation))
+                        {
+                            translation = SubtitleFormating.SubStationAlphaFormat(translation);                            
+                        } else
+                        {
+                            translation = SubtitleFormating.SubStationAlphaFormat(row["Text"].ToString().Trim().Replace(" || ", "\\N"));                           
+                        }
+                        string text = String.Format("Dialogue: 0,{0},{1},Default,,0,0,0,,{2}", start, end, translation);
+                        assFile.WriteLine(text);
+                    }
+
+                    assFile.Dispose();
+                    assFile.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        
     }
 }
