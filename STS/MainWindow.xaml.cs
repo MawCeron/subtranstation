@@ -231,7 +231,7 @@ namespace STS
                         dialog.DialogTitle = "Suggested Translation";
                         dialog.Message = message;
                         dialog.Type = DialogWindow.GoogleType;
-                        dialog.Subtitle = txtDialog.Text;
+                        dialog.Subtitle = loadedSubs.Rows[currentDialog]["Dialog"].ToString();
                         dialog.Owner = this;                        
                         if (dialog.ShowDialog() == true)
                         {
@@ -259,7 +259,8 @@ namespace STS
             lblStartTime.Content = String.Format("Start: {0}", loadedSubs.Rows[currentDialog]["Start"].ToString());
             lblEndTime.Content = String.Format("End: {0}", loadedSubs.Rows[currentDialog]["End"].ToString());
 
-            txtDialog.Text = loadedSubs.Rows[currentDialog]["Text"].ToString();
+            string htmlDialog = SharedClasses.VisualDialogue(loadedSubs.Rows[currentDialog]["Text"].ToString());
+            txtDialog.NavigateToString(htmlDialog);
             txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();            
         }
 

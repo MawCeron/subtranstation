@@ -57,7 +57,7 @@ namespace STS
                     string text = "";
                     for (int i = 2; i < elements.Length; i++)
                     {
-                        text += elements[i].Trim() + " || ";
+                        text += elements[i].Trim() + "<br />";
                     }
 
                     text = text.Remove(text.Length - 4);

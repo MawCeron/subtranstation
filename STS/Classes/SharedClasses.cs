@@ -148,5 +148,16 @@ namespace STS
 
             
         }
+
+        internal static string VisualDialogue(string dialogue)
+        {
+            string html = String.Empty;
+            html += "<body style='overflow:hidden;background-color:#1E1E1E'>";
+            html += "<p style='font-size:15pt;font-family:segoe ui'>{0}</p>";
+            html += "</body>";
+
+            html = String.Format(html, dialogue);
+            return html;
+        }
     }
 }

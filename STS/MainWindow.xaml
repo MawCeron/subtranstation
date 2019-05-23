@@ -250,7 +250,7 @@
             </Grid.RowDefinitions>
             <!-- Language Combos -->
             <!-- Dialog and Translation TextBox -->
-            <TextBox x:Name="txtDialog"
+            <!--<TextBox x:Name="txtDialog"
                      Grid.Column="0"
                      Grid.Row="1"
                      TextWrapping="Wrap"                     
@@ -281,7 +281,10 @@
                         </Setter>
                     </Style>
                 </TextBox.Style>
-            </TextBox>
+            </TextBox>-->
+            <WebBrowser  x:Name="txtDialog"
+                     Grid.Column="0"
+                     Grid.Row="1" />
             <StackPanel Grid.Row="1" Grid.Column="1" >
                 <Button x:Name="btGoogle" Height="36" Width="36" VerticalAlignment="Top"
                     Margin="0,20,0,0" ToolTip="Suggest translation" Click="ChangeDialogue"
