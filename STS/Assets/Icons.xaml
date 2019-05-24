@@ -85,6 +85,49 @@
         <Canvas Name="h34"/>
     </Canvas>
 
+    <Canvas x:Key="Bold" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg4" Width="384" Height="512">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="bold" Fill="#FFA3A3A3" Data="M304.793 243.891c33.639-18.537 53.657-54.16 53.657-95.693 0-48.236-26.25-87.626-68.626-104.179C265.138 34.01 240.849 32 209.661 32H24c-8.837 0-16 7.163-16 16v33.049c0 8.837 7.163 16 16 16h33.113v318.53H24c-8.837 0-16 7.163-16 16V464c0 8.837 7.163 16 16 16h195.69c24.203 0 44.834-1.289 66.866-7.584C337.52 457.193 376 410.647 376 350.014c0-52.168-26.573-91.684-71.207-106.123zM142.217 100.809h67.444c16.294 0 27.536 2.019 37.525 6.717 15.828 8.479 24.906 26.502 24.906 49.446 0 35.029-20.32 56.79-53.029 56.79h-76.846V100.809zm112.642 305.475c-10.14 4.056-22.677 4.907-31.409 4.907h-81.233V281.943h84.367c39.645 0 63.057 25.38 63.057 63.057.001 28.425-13.66 52.483-34.782 61.284z"/>
+    </Canvas>
+
+    <Canvas x:Key="Italic" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="svg" Width="320" Height="512">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="italic" Fill="#FFA3A3A3" Data="M204.758 416h-33.849l62.092-320h40.725a16 16 0 0 0 15.704-12.937l6.242-32C297.599 41.184 290.034 32 279.968 32H120.235a16 16 0 0 0-15.704 12.937l-6.242 32C96.362 86.816 103.927 96 113.993 96h33.846l-62.09 320H46.278a16 16 0 0 0-15.704 12.935l-6.245 32C22.402 470.815 29.967 480 40.034 480h158.479a16 16 0 0 0 15.704-12.935l6.245-32c1.927-9.88-5.638-19.065-15.704-19.065z"/>
+    </Canvas>
+
+    <Canvas x:Key="Underline" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="sg4" Width="448" Height="512">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pah2" Fill="#FFA3A3A3" Data="M224.264 388.24c-91.669 0-156.603-51.165-156.603-151.392V64H39.37c-8.837 0-16-7.163-16-16V16c0-8.837 7.163-16 16-16h137.39c8.837 0 16 7.163 16 16v32c0 8.837-7.163 16-16 16h-28.813v172.848c0 53.699 28.314 79.444 76.317 79.444 46.966 0 75.796-25.434 75.796-79.965V64h-28.291c-8.837 0-16-7.163-16-16V16c0-8.837 7.163-16 16-16h136.868c8.837 0 16 7.163 16 16v32c0 8.837-7.163 16-16 16h-28.291v172.848c0 99.405-64.881 151.392-156.082 151.392zM16 448h416c8.837 0 16 7.163 16 16v32c0 8.837-7.163 16-16 16H16c-8.837 0-16-7.163-16-16v-32c0-8.837 7.163-16 16-16z"/>
+    </Canvas>
+
+    <Canvas x:Key="Color" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="sv4" Width="512" Height="512">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="pat2" Fill="#FFA3A3A3" Data="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
+    </Canvas>
+
+    <Canvas x:Key="Line" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="vg4" Width="320" Height="512">
+        <Canvas.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Canvas.RenderTransform>
+        <Canvas.Resources/>
+        <Canvas Name="text819" Opacity="1">
+            <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path821" Fill="#FFA3A3A3" StrokeThickness="12.81552887" Data="M 272.06655 488.71694 H 235.02166 V 57.69466 h -53.5649 V 488.71694 H 144.16157 V 249.42699 q -51.562484 -1.25152 -83.1007 -32.28913 -31.538215 -31.03761 -31.538215 -82.09948 0 -51.812784 32.539429 -80.847966 32.539428 -29.035183 93.363126 -29.035183 h 116.64134 z"/>
+        </Canvas>
+    </Canvas>
+
+
     <Canvas x:Key="GTLogo" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Name="Glogo" Canvas.Left="0" Canvas.Top="0" Width="1000" Height="1000">
         <Canvas.RenderTransform>
             <TranslateTransform X="0" Y="0"/>

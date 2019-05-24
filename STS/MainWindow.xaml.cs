@@ -31,8 +31,8 @@ namespace STS
         public string suggestedTrans { get; set; }
 
         public MainWindow()
-        {
-            InitializeComponent();
+        {            
+            InitializeComponent();            
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -261,6 +261,7 @@ namespace STS
 
             string htmlDialog = SharedClasses.VisualDialogue(loadedSubs.Rows[currentDialog]["Text"].ToString());
             txtDialog.NavigateToString(htmlDialog);
+            txtDialog.Visibility = Visibility.Visible;
             txtTranslate.Text = loadedSubs.Rows[currentDialog]["Translation"].ToString();            
         }
 

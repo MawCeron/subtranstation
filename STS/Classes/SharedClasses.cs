@@ -153,7 +153,7 @@ namespace STS
         {
             string html = String.Empty;
             html += "<body style='overflow:hidden;background-color:#1E1E1E'>";
-            html += "<p style='font-size:15pt;font-family:segoe ui'>{0}</p>";
+            html += "<p style='font-size:15pt;font-family:segoe ui;color:#A7A7A7'>{0}</p>";
             html += "</body>";
 
             html = String.Format(html, dialogue);
