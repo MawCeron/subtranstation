@@ -464,7 +464,7 @@
                        VerticalAlignment="Center"
                        Foreground="DarkGray"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Width="22" Margin="1,1" x:Name="btBold" ToolTip="Bold">
+                    <Button Width="22" Margin="1,1" x:Name="btBold" ToolTip="Bold" Click="btBold_Click">
                         <Viewbox Height="16" Width="16">
                             <ContentControl Content="{StaticResource Bold}"/>
                         </Viewbox>

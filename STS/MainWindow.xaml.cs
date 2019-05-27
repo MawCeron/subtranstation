@@ -231,7 +231,7 @@ namespace STS
                         dialog.DialogTitle = "Suggested Translation";
                         dialog.Message = message;
                         dialog.Type = DialogWindow.GoogleType;
-                        dialog.Subtitle = loadedSubs.Rows[currentDialog]["Dialog"].ToString();
+                        dialog.Subtitle = loadedSubs.Rows[currentDialog]["Text"].ToString();
                         dialog.Owner = this;                        
                         if (dialog.ShowDialog() == true)
                         {
@@ -314,6 +314,62 @@ namespace STS
                 }
             }
 
+        }
+
+        // Text format control variables
+        private bool isBoldOpen = false;
+        private int bInitial = -1;        
+
+        private void btBold_Click(object sender, RoutedEventArgs e)
+        {
+            string formated = String.Empty;
+            string selected = String.Empty;
+
+            var selection = txtTranslate.SelectionLength;
+            if (selection > 0)
+            {   
+                selected = txtTranslate.SelectedText;
+                if(selected.IndexOf("{b}") == 0)
+                {
+                    if(selected.IndexOf("{\\b}") == selection-4)
+                    {
+                        formated = selected.Replace("{b}", "").Replace("{\\b}", "");                        
+                    }
+                } else
+                {
+                    formated = "{b}" + selected.Replace("{b}", "").Replace("{\\b}", "") + "{\\b}";
+                }
+                txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);
+            } else
+            {
+                if (!isBoldOpen)
+                {
+                    isBoldOpen = true;
+                    int position = txtTranslate.CaretIndex;
+                    txtTranslate.Text = txtTranslate.Text.Insert(position, "{b}");
+                    txtTranslate.Focus();
+                    txtTranslate.CaretIndex = position + 3;
+                    bInitial = position;
+                } else
+                {
+                    int position = txtTranslate.CaretIndex;
+                    isBoldOpen = false;
+                    if (position < bInitial)
+                    {
+                        txtTranslate.Text = txtTranslate.Text.Insert(bInitial + 1, "\\").Insert(position, "{b}");
+                        txtTranslate.CaretIndex = bInitial + 3;
+                    } else
+                    {
+                        txtTranslate.Text = txtTranslate.Text.Insert(position, "{\\b}");
+                        bInitial = position;
+                        txtTranslate.CaretIndex = position + 4;
+                    }
+                    txtTranslate.Focus();
+                    ;
+                }
+            }
+            
+            
         }
     }
 }
