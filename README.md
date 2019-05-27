@@ -39,3 +39,28 @@ This project tries to solve this improving the translation process focusing just
     * TXT (Plain Text)
     * SRT (SubRip)
     * ASS, SSA (SubStation Alpha)
+    
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy you can clone the repo:
+```sh
+git clone https://github.com/MawCeron/subtranstation.git
+```
+Or just download the [latest release](https://github.com/MawCeron/subtranstation/releases).
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. This project, just like many others, is far from perfect, any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
