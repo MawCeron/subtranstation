@@ -1,7 +1,7 @@
 <h3 align="center">Subtitle TranStation</h3>
 <p align="center"><img src="screenshot.png"></p>
   <p align="center">
-    An simple station for an easy and fast subtitle translation.    
+    A simple station for an easy and fast subtitle translation.    
     <br />
     <br />    
     <a href="https://github.com/MawCeron/subtranstation/issues">Report Bug</a>
