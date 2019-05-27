@@ -60,7 +60,7 @@ namespace STS
                         text += elements[i].Trim() + "<br />";
                     }
 
-                    text = text.Remove(text.Length - 4);
+                    text = text.Remove(text.Length - 6);
                     dialog[2] = text;
 
                     loadedSubs.Rows.Add(dialog);
