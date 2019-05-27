@@ -13,7 +13,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]
+<p align="center"><img src="screenshot.png"></p>
 
 There are many great subtitle editors out there, however, when all you want is just to translate those subtitles into another language all the other features are mainly innecesary and in many occasions it prolongs the time that takes to make and save the translation.
 
