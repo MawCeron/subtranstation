@@ -28,7 +28,9 @@ namespace STS
         private DataSet subScript;
         private bool unsavedSubs = false;
         private bool fileOpened = false;
-        public string suggestedTrans { get; set; }
+        private const string BOLD = "b";
+        private const string ITALIC = "i";
+        private const string UNDERLINE = "u";
 
         public MainWindow()
         {            
@@ -322,52 +324,7 @@ namespace STS
 
         private void btBold_Click(object sender, RoutedEventArgs e)
         {
-            string formated = String.Empty;
-            string selected = String.Empty;
-
-            var selection = txtTranslate.SelectionLength;
-            if (selection > 0)
-            {   
-                selected = txtTranslate.SelectedText;
-                if(selected.IndexOf("{b}") == 0)
-                {
-                    if(selected.IndexOf("{\\b}") == selection-4)
-                    {
-                        formated = selected.Replace("{b}", "").Replace("{\\b}", "");                        
-                    }
-                } else
-                {
-                    formated = "{b}" + selected.Replace("{b}", "").Replace("{\\b}", "") + "{\\b}";
-                }
-                txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);
-            } else
-            {
-                if (!isBoldOpen)
-                {
-                    isBoldOpen = true;
-                    int position = txtTranslate.CaretIndex;
-                    txtTranslate.Text = txtTranslate.Text.Insert(position, "{b}");
-                    txtTranslate.Focus();
-                    txtTranslate.CaretIndex = position + 3;
-                    bInitial = position;
-                } else
-                {
-                    int position = txtTranslate.CaretIndex;
-                    isBoldOpen = false;
-                    if (position < bInitial)
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(bInitial + 1, "\\").Insert(position, "{b}");
-                        txtTranslate.CaretIndex = bInitial + 3;
-                    } else
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(position, "{\\b}");
-                        bInitial = position;
-                        txtTranslate.CaretIndex = position + 4;
-                    }
-                    txtTranslate.Focus();
-                    ;
-                }
-            }
+            isBoldOpen = TextFormating(BOLD, isBoldOpen, bInitial);
         }
 
         // Text format italic control variables
@@ -376,56 +333,7 @@ namespace STS
 
         private void btItalic_Click(object sender, RoutedEventArgs e)
         {
-            string formated = String.Empty;
-            string selected = String.Empty;
-
-            var selection = txtTranslate.SelectionLength;
-            if (selection > 0)
-            {
-                selected = txtTranslate.SelectedText;
-                if (selected.IndexOf("{u}") == 0)
-                {
-                    if (selected.IndexOf("{\\u}") == selection - 4)
-                    {
-                        formated = selected.Replace("{u}", "").Replace("{\\u}", "");
-                    }
-                }
-                else
-                {
-                    formated = "{u}" + selected.Replace("{u}", "").Replace("{\\u}", "") + "{\\u}";
-                }
-                txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);
-            }
-            else
-            {
-                if (!isItalicOpen)
-                {
-                    isItalicOpen = true;
-                    int position = txtTranslate.CaretIndex;
-                    txtTranslate.Text = txtTranslate.Text.Insert(position, "{u}");
-                    txtTranslate.Focus();
-                    txtTranslate.CaretIndex = position + 3;
-                    iInitial = position;
-                }
-                else
-                {
-                    int position = txtTranslate.CaretIndex;
-                    isItalicOpen = false;
-                    if (position < iInitial)
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(iInitial + 1, "\\").Insert(position, "{u}");
-                        txtTranslate.CaretIndex = iInitial + 3;
-                    }
-                    else
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(position, "{\\u}");
-                        iInitial = position;
-                        txtTranslate.CaretIndex = position + 4;
-                    }
-                    txtTranslate.Focus();
-                    ;
-                }
-            }
+            isItalicOpen = TextFormating(ITALIC, isItalicOpen, iInitial);
         }
 
         // Text format underline control variables
@@ -434,62 +342,100 @@ namespace STS
 
         private void btUnder_Click(object sender, RoutedEventArgs e)
         {
-            string formated = String.Empty;
-            string selected = String.Empty;
-
-            var selection = txtTranslate.SelectionLength;
-            if (selection > 0)
-            {
-                selected = txtTranslate.SelectedText;
-                if (selected.IndexOf("{u}") == 0)
-                {
-                    if (selected.IndexOf("{\\u}") == selection - 4)
-                    {
-                        formated = selected.Replace("{u}", "").Replace("{\\u}", "");
-                    }
-                }
-                else
-                {
-                    formated = "{u}" + selected.Replace("{u}", "").Replace("{\\u}", "") + "{\\u}";
-                }
-                txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);
-            }
-            else
-            {
-                if (!isUnderOpen)
-                {
-                    isUnderOpen = true;
-                    int position = txtTranslate.CaretIndex;
-                    txtTranslate.Text = txtTranslate.Text.Insert(position, "{u}");
-                    txtTranslate.Focus();
-                    txtTranslate.CaretIndex = position + 3;
-                    uInitial = position;
-                }
-                else
-                {
-                    int position = txtTranslate.CaretIndex;
-                    isUnderOpen = false;
-                    if (position < uInitial)
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(uInitial + 1, "\\").Insert(position, "{u}");
-                        txtTranslate.CaretIndex = uInitial + 3;
-                    }
-                    else
-                    {
-                        txtTranslate.Text = txtTranslate.Text.Insert(position, "{\\u}");
-                        uInitial = position;
-                        txtTranslate.CaretIndex = position + 4;
-                    }
-                    txtTranslate.Focus();
-                    ;
-                }
-            }
+            isUnderOpen = TextFormating(UNDERLINE, isUnderOpen, uInitial);
         }
 
         private void btNewLine_Click(object sender, RoutedEventArgs e)
         {
             int position = txtTranslate.CaretIndex;
             txtTranslate.Text = txtTranslate.Text.Insert(position, "{n}");
+        }
+
+        // Font color variables
+        private string pickedColor;
+        private bool isColorOpen;
+        private int cInitial = -1;
+
+        private void btColor_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPicker picker = new ColorPicker();
+            picker.Owner = this;
+            if(picker.ShowDialog() == true)
+            {
+                pickedColor = picker.PickedColor;
+                picker.Close();
+                isColorOpen = TextFormating("c:" + pickedColor, isColorOpen, cInitial);
+            }
+        }
+
+        private bool TextFormating(string formatKey, bool isKeyOpen, int keyInitial)
+        {
+            string formated = String.Empty;
+            string selected = String.Empty;
+
+            int selection = txtTranslate.SelectionLength;
+            if(selection > 0)
+            {
+                selected = txtTranslate.SelectedText;
+                if (selected.IndexOf("{"+formatKey+"}") == 0 && selected.IndexOf("{\\"+formatKey+"}") == selection - 4)
+                    formated = selected.Replace("{"+formatKey+"}", "").Replace("{\\"+formatKey+"}", "");
+                else
+                    formated = "{"+formatKey+"}" + selected.Replace("{"+formatKey+"}", "").Replace("{\\"+formatKey+"}", "") + "{\\"+formatKey+"}";
+
+                txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);                
+            } else
+            {
+                if (!isKeyOpen)
+                {
+                    int position = txtTranslate.CaretIndex;
+                    txtTranslate.Text = txtTranslate.Text.Insert(position, "{"+formatKey+"}");
+                    txtTranslate.Focus();
+                    txtTranslate.CaretIndex = position + formatKey.Length + 2;
+                    keyInitial = position;
+                    return true;
+                } else
+                {
+                    int position = txtTranslate.CaretIndex;
+                    isItalicOpen = false;
+                    if (position < keyInitial)
+                    {
+                        txtTranslate.Text = txtTranslate.Text.Insert(keyInitial + 1, "\\").Insert(position, "{"+formatKey+"}");
+                        txtTranslate.CaretIndex = keyInitial + formatKey.Length + 2;
+                    }
+                    else
+                    {
+                        if(keyInitial == -1)
+                        {
+                            txtTranslate.Text = txtTranslate.Text.Insert(keyInitial + 2, "\\").Insert(position, "{" + formatKey + "}");
+                            txtTranslate.CaretIndex = position + formatKey.Length + 2;
+                        }                            
+                        else
+                        {
+                            txtTranslate.Text = txtTranslate.Text.Insert(position, "{\\" + formatKey + "}");
+                            txtTranslate.CaretIndex = position + formatKey.Length + 3;
+                        }   
+                        keyInitial = position;
+                    }
+                    txtTranslate.Focus();
+                }
+            }
+
+            switch (formatKey)
+            {
+                case "b":
+                    bInitial = keyInitial;
+                    break;
+                case "i":
+                    iInitial = keyInitial;
+                    break;
+                case "u":
+                    uInitial = keyInitial;
+                    break;
+                default:
+                    cInitial = keyInitial;
+                    break;
+            }
+            return false;
         }
     }
 }
