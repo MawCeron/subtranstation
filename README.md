@@ -15,7 +15,9 @@
 
 There are many great subtitle editors out there, however, when all you want is just to translate those subtitles into another language all the other features are mainly innecesary and in many occasions it prolongs the time that takes to make and save the translation.
 
-This project tries to solve this improving the translation process focusing just in the dialogues, and the necessary tools to work with it.
+This project tries to solve this improving the translation process focusing just in the dialogues, and the necessary tools to work with it. 
+
+It's written in C# with WPF using Visual Studio 2015.
 
 ### Features
 #### v0.1.0
