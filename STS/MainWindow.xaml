@@ -491,7 +491,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Width="22" Margin="2,1" x:Name="btItalic" ToolTip="Italic">
+                    <Button Width="22" Margin="2,1" x:Name="btItalic" ToolTip="Italic" Click="btItalic_Click">
                         <Viewbox Height="16" Width="16">
                             <ContentControl Content="{StaticResource Italic}"/>
                         </Viewbox>
@@ -572,7 +572,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Width="22" Margin="2,0" x:Name="btNewLine" ToolTip="Line break" >
+                    <Button Width="22" Margin="2,0" x:Name="btNewLine" ToolTip="Line break" Click="btNewLine_Click" >
                         <Viewbox Height="16" Width="16">
                             <ContentControl Content="{StaticResource Line}"/>
                         </Viewbox>
