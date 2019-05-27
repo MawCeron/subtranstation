@@ -1,9 +1,9 @@
 <h3 align="center">Subtitle TranStation</h3>
-
+<p align="center"><img src="screenshot.png"></p>
   <p align="center">
-    An Station for an easy and fast subtitle translation.    
+    An simple station for an easy and fast subtitle translation.    
     <br />
-    <br />
+    <br />    
     <a href="https://github.com/MawCeron/subtranstation/issues">Report Bug</a>
     ·
     <a href="https://github.com/MawCeron/subtranstation/issues">Request Feature</a>
@@ -12,8 +12,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-<p align="center"><img src="screenshot.png"></p>
 
 There are many great subtitle editors out there, however, when all you want is just to translate those subtitles into another language all the other features are mainly innecesary and in many occasions it prolongs the time that takes to make and save the translation.
 
