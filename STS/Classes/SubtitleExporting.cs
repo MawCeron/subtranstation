@@ -44,7 +44,7 @@ namespace STS
                     if (!String.IsNullOrEmpty(translation) || !String.IsNullOrWhiteSpace(translation))
                     {
                         translation = SubtitleFormating.SubRipFormat(translation);
-                        string[] delimeters = { "||", "\\N", "\\n" };
+                        string[] delimeters = { "\\N", "\\n", "{\\n}" };
                         string[] dialogues = translation.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string dialogue in dialogues)
                             if(!String.IsNullOrWhiteSpace(dialogue))
@@ -53,7 +53,7 @@ namespace STS
                     else
                     {                        
                         translation = SubtitleFormating.SubRipFormat(translatedSubs.Rows[i]["Text"].ToString());
-                        string[] delimeters = { "||", "\\N", "\\n" };
+                        string[] delimeters = { "\\N", "\\n", "{\\n}", "<br />" };
                         string[] dialogues = translation.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string dialogue in dialogues)
                             if (!String.IsNullOrWhiteSpace(dialogue))

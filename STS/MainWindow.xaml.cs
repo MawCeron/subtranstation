@@ -349,13 +349,19 @@ namespace STS
 
         private void btColor_Click(object sender, RoutedEventArgs e)
         {
-            ColorPicker picker = new ColorPicker();
-            picker.Owner = this;
-            if(picker.ShowDialog() == true)
+            if (isColorOpen)
             {
-                pickedColor = picker.PickedColor;
-                picker.Close();
-                isColorOpen = TextFormating("c:" + pickedColor, isColorOpen, cInitial);
+                TextFormating("c", isColorOpen, cInitial);
+            } else
+            {
+                ColorPicker picker = new ColorPicker();
+                picker.Owner = this;
+                if (picker.ShowDialog() == true)
+                {
+                    pickedColor = picker.PickedColor;
+                    picker.Close();
+                    isColorOpen = TextFormating("c:" + pickedColor, isColorOpen, cInitial);
+                }
             }
         }
 
@@ -370,7 +376,7 @@ namespace STS
                 selected = txtTranslate.SelectedText;
                 if (selected.IndexOf("{"+formatKey+"}") == 0 && selected.IndexOf("{\\"+formatKey+"}") == selection - 4)
                     formated = selected.Replace("{"+formatKey+"}", "").Replace("{\\"+formatKey+"}", "");
-                else
+                else                    
                     formated = "{"+formatKey+"}" + selected.Replace("{"+formatKey+"}", "").Replace("{\\"+formatKey+"}", "") + "{\\"+formatKey+"}";
 
                 txtTranslate.Text = txtTranslate.Text.Replace(selected, formated);                
@@ -421,10 +427,7 @@ namespace STS
                     break;
                 case "u":
                     uInitial = keyInitial;
-                    break;
-                default:
-                    cInitial = keyInitial;
-                    break;
+                    break;                
             }
             return false;
         }
